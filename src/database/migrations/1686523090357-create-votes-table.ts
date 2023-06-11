@@ -13,26 +13,36 @@ export class CreateVotesTable1686523090357 implements MigrationInterface {
             isPrimary: true,
           },
           {
-            name: 'voterId',
+            name: 'voter_id',
             type: 'varchar',
           },
           {
-            name: 'candidateIdPresident',
+            name: 'candidate_id_president',
             type: 'varchar',
           },
           {
-            name: 'candidateIdVicePresident',
+            name: 'candidate_id_vice_president',
             type: 'varchar',
           },
           {
-            name: 'confirmationStatus',
+            name: 'confirmation_status',
             type: 'boolean',
             default: false,
           },
           {
-            name: 'otpEntry',
+            name: 'otp_entry',
             type: 'varchar',
             isNullable: true,
+          },
+          {
+            name: 'created_at',
+            type: 'timestamp',
+            default: 'now()',
+          },
+          {
+            name: 'updated_at',
+            type: 'timestamp',
+            default: 'now()',
           },
         ],
       }),

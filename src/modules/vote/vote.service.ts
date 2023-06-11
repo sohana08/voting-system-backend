@@ -47,7 +47,11 @@ export class VoteService {
         );
       }
 
-      return vote;
+      // Create a new object without the otpEntry property
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { otpEntry, ...voteWithoutOtp } = vote;
+
+      return voteWithoutOtp;
     }
 
     const voteUpdate = this.voteRepository.merge(voteEntry, voteDto);
@@ -61,7 +65,11 @@ export class VoteService {
       );
     }
 
-    return vote;
+    // Create a new object without the otpEntry property
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { otpEntry, ...voteWithoutOtp } = vote;
+
+    return voteWithoutOtp;
   }
 
   async verifyOtp(voterEntity: VoterEntity, verifyOtpDto: VerifyOtpDto) {

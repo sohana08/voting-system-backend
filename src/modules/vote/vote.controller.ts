@@ -7,7 +7,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiOkResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOkResponse } from '@nestjs/swagger';
 
 import { AuthUser } from '../../decorators';
 import { VoterEntity } from '../voter/voter.entity';
@@ -27,6 +27,7 @@ export class VoteController {
     type: VoteDto,
     description: 'Successfully voted',
   })
+  @ApiBearerAuth()
   create(
     @AuthUser() voterEntity: VoterEntity,
     @Body() createVoteDto: CreateVoteDto,
@@ -41,6 +42,7 @@ export class VoteController {
     type: VoteDto,
     description: 'Successfully voted',
   })
+  @ApiBearerAuth()
   verifyOtp(
     @AuthUser() voterEntity: VoterEntity,
     @Body() verifyOtpDto: VerifyOtpDto,
