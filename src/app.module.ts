@@ -12,6 +12,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { CandidateModule } from './modules/candidate/candidate.module';
 import { HealthCheckerModule } from './modules/health-checker/health-checker.module';
 import { UserModule } from './modules/user/user.module';
+import { VoteModule } from './modules/vote/vote.module';
 import { VoterModule } from './modules/voter/voter.module';
 import { ApiConfigService } from './shared/services/api-config.service';
 import { SharedModule } from './shared/shared.module';
@@ -22,6 +23,7 @@ import { SharedModule } from './shared/shared.module';
     UserModule,
     CandidateModule,
     VoterModule,
+    VoteModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',

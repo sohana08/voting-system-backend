@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { isPhoneNumber } from 'class-validator';
 
 import { generateOtp } from '../../common/utils';
@@ -71,6 +75,13 @@ export class VoteService {
       throw new NotFoundException('Vote not submitted');
     }
 
-    return voteEntry;
+    if (
+      voteEntry.otpEntry === verifyOtpDto.otp &&
+      voteEntry.confirmationStatus === false
+    ) {
+      return voteEntry;
+    }
+
+    throw new ForbiddenException('Invalid OTP');
   }
 }
