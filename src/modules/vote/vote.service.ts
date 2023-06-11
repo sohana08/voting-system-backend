@@ -87,7 +87,15 @@ export class VoteService {
       voteEntry.otpEntry === verifyOtpDto.otp &&
       voteEntry.confirmationStatus === false
     ) {
-      return voteEntry;
+      voteEntry.confirmationStatus = true;
+      await this.voteRepository.save(voteEntry);
+      const voteUpdate = await this.voteRepository.findOne({
+        where: {
+          voterId: voterEntity.id,
+        },
+      });
+
+      return voteUpdate;
     }
 
     throw new ForbiddenException('Invalid OTP');

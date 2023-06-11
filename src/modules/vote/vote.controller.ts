@@ -7,7 +7,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiBearerAuth, ApiOkResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
 import { AuthUser } from '../../decorators';
 import { VoterEntity } from '../voter/voter.entity';
@@ -16,11 +16,12 @@ import { VerifyOtpDto } from './dto/verify-otp.dto';
 import { VoteDto } from './dto/vote.dto';
 import { VoteService } from './vote.service';
 
-@Controller('vote')
+@Controller('votes')
+@ApiTags('votes')
 export class VoteController {
   constructor(private readonly voteService: VoteService) {}
 
-  @Post()
+  @Post('cast-vote')
   @UseGuards(AuthGuard('voterJwt'))
   @HttpCode(HttpStatus.OK)
   @ApiOkResponse({
