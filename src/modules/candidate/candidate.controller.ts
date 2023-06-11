@@ -5,8 +5,10 @@ import {
   HttpCode,
   HttpStatus,
   Post,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '@nestjs/passport';
+import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
 import { CandidateService } from './candidate.service';
 import { CandidateDto } from './dto/candidate.dto';
@@ -29,6 +31,8 @@ export class CandidateController {
 
   @Get()
   @HttpCode(HttpStatus.OK)
+  @UseGuards(AuthGuard('voterJwt'))
+  @ApiBearerAuth()
   @ApiOkResponse({
     type: CandidateDto,
     isArray: true,

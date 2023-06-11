@@ -1,16 +1,21 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { ApiConfigService } from '../../shared/services/api-config.service';
 import { UserModule } from '../user/user.module';
+import { VoterRepository } from '../voter/voter.repository';
+import { VoterService } from '../voter/voter.service';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
 import { PublicStrategy } from './public.strategy';
+import { VoterJwtStrategy } from './voter.jwt.strategy';
 
 @Module({
   imports: [
+    TypeOrmModule.forFeature([VoterRepository]),
     forwardRef(() => UserModule),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
@@ -33,7 +38,13 @@ import { PublicStrategy } from './public.strategy';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, PublicStrategy],
+  providers: [
+    AuthService,
+    JwtStrategy,
+    VoterJwtStrategy,
+    PublicStrategy,
+    VoterService,
+  ],
   exports: [JwtModule, AuthService],
 })
 export class AuthModule {}
