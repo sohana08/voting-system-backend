@@ -131,6 +131,15 @@ export class ApiConfigService {
     };
   }
 
+  get playsmsConfig() {
+    return {
+      url: this.getString('PLAYSMS_URL'),
+      username: this.getString('PLAYSMS_USERNAME'),
+      token: this.getString('PLAYSMS_TOKEN'),
+      operationType: this.getString('PLAYSMS_OPERATION_TYPE'),
+    };
+  }
+
   get authConfig() {
     return {
       privateKey: this.getString('JWT_PRIVATE_KEY'),

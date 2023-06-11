@@ -45,3 +45,14 @@ export function getVariableName<TResult>(getVar: () => TResult): string {
 
   return memberParts[memberParts.length - 1];
 }
+
+export function generateOtp() {
+  const digits = '1234567890';
+  let otp = '';
+
+  for (let i = 0; i < 4; i++) {
+    otp += digits[Math.floor(Math.random() * 10)];
+  }
+
+  return otp;
+}
