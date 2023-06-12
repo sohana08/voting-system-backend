@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ForbiddenException,
   Injectable,
   NotFoundException,
@@ -23,9 +24,12 @@ export class VoteService {
     const voteEntry = await this.voteRepository.findOne({
       where: {
         voterId: voterEntity.id,
-        confirmationStatus: false,
       },
     });
+
+    if (voteEntry?.confirmationStatus === true) {
+      throw new BadRequestException('Already voted');
+    }
 
     const voteDto = {
       voterId: voterEntity.id,
@@ -99,5 +103,37 @@ export class VoteService {
     }
 
     throw new ForbiddenException('Invalid OTP');
+  }
+
+  async getVoteCountForPresident() {
+    const queryBuilder = this.voteRepository
+      .createQueryBuilder('vote')
+      .leftJoin('vote.president', 'president')
+      .select('president.id as Id')
+      .addSelect('president.name as name')
+      .addSelect('president.description as description')
+      .addSelect('president.avatar as avatar')
+      .addSelect('count(vote.voter_id)', 'totalVotes')
+      .groupBy('vote.candidate_id_president');
+
+    const votes = await queryBuilder.getRawMany();
+
+    return votes;
+  }
+
+  async getVoteCountForVicePresident() {
+    const queryBuilder = this.voteRepository
+      .createQueryBuilder('vote')
+      .leftJoin('vote.vicePresident', 'vicePresident')
+      .select('vicePresident.id as Id')
+      .addSelect('vicePresident.name as name')
+      .addSelect('vicePresident.description as description')
+      .addSelect('vicePresident.avatar as avatar')
+      .addSelect('count(vote.voter_id)', 'totalVotes')
+      .groupBy('vote.candidate_id_vice_president');
+
+    const votes = await queryBuilder.getRawMany();
+
+    return votes;
   }
 }
