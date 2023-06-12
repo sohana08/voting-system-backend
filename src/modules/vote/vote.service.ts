@@ -114,6 +114,9 @@ export class VoteService {
       .addSelect('president.description as description')
       .addSelect('president.avatar as avatar')
       .addSelect('count(vote.voter_id)', 'totalVotes')
+      .where('vote.confirmationStatus = :confirmationStatus', {
+        confirmationStatus: true,
+      })
       .groupBy('vote.candidate_id_president');
 
     const votes = await queryBuilder.getRawMany();
@@ -130,6 +133,9 @@ export class VoteService {
       .addSelect('vicePresident.description as description')
       .addSelect('vicePresident.avatar as avatar')
       .addSelect('count(vote.voter_id)', 'totalVotes')
+      .where('vote.confirmationStatus = :confirmationStatus', {
+        confirmationStatus: true,
+      })
       .groupBy('vote.candidate_id_vice_president');
 
     const votes = await queryBuilder.getRawMany();
