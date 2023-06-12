@@ -21,7 +21,7 @@ import { VoteService } from './vote.service';
 export class VoteController {
   constructor(private readonly voteService: VoteService) {}
 
-  @Post('cast-vote')
+  @Post('submit-vote')
   @UseGuards(AuthGuard('voterJwt'))
   @HttpCode(HttpStatus.OK)
   @ApiOkResponse({
